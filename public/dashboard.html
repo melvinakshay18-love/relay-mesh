@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>Relay-Mesh Command Dashboard</title>
+  <link rel="icon" href="/icon.svg">
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="/vendor/vis-network/vis-network.min.js"></script>
+  <script type="module" src="/js/dashboard.js"></script>
+</head>
+<body class="dash">
+  <header class="topbar">
+    <a class="brand" href="/">&#9672; Relay<span>Mesh</span></a>
+    <div class="me"><strong>Command dashboard</strong><code>Live telemetry from nodes in contact with the base station</code></div>
+    <span id="conn" class="pill off">connecting...</span>
+    <a class="pill" href="/app.html" target="_blank" rel="noopener">+ open a node</a>
+  </header>
+  <main class="dash-main">
+    <div id="stats" class="stats"></div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Network topology</h3>
+        <div id="graph" class="graph"></div>
+        <div class="legend">
+          <span><i style="background:#22d3ee"></i>broadcast</span>
+          <span><i style="background:#a78bfa"></i>encrypted DM</span>
+          <span><i style="background:#4ade80"></i>ack</span>
+          <span><i style="background:#ef4444"></i>SOS</span>
+          <span>dashed = server relay fallback</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>SOS alerts</h3>
+        <div id="map" class="map dash-map"></div>
+        <div id="sos-list"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Nodes</h3>
+      <div id="table"></div>
+    </div>
+  </main>
+</body>
+</html>

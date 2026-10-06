@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>Relay-Mesh - Off-grid mesh messaging for disaster response</title>
+  <meta name="description" content="Peer-to-peer mesh messenger with gossip routing, store-and-forward delivery, end-to-end encryption and live SOS mapping.">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="landing">
+  <header class="nav">
+    <a class="brand" href="/">&#9672; Relay<span>Mesh</span></a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how">Architecture</a>
+      <a href="#demo">Demo</a>
+      <a href="/dashboard.html">Dashboard</a>
+      <a class="btn" href="/app.html">Launch node</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-badge">Disaster-response communication</div>
+    <h1>Messages that get through when the internet doesn't.</h1>
+    <p>Relay-Mesh turns every phone and laptop into a relay. Messages hop device to device over Bluetooth and WebRTC, stay end-to-end encrypted, wait in a store-and-forward buffer when nobody is in range, and put SOS calls on a live map.</p>
+    <div class="cta">
+      <a class="btn" href="/app.html">Launch a node</a>
+      <a class="btn ghost" href="/dashboard.html">Open command dashboard</a>
+    </div>
+    <div class="hero-stats">
+      <div><b>0</b><span>cloud servers needed after peers meet</span></div>
+      <div><b>256-bit</b><span>AES-GCM end-to-end encryption</span></div>
+      <div><b>16</b><span>hop reach for SOS broadcasts</span></div>
+      <div><b>30 min</b><span>store-and-forward carry window</span></div>
+    </div>
+  </section>
+
+  <section id="features" class="section">
+    <h2>Features</h2>
+    <div class="features">
+      <article><h3>Mesh routing</h3><p>Controlled flooding (gossip) with hop limits (TTL), unique packet ids for duplicate suppression and a full route trace on every message.</p></article>
+      <article><h3>Store and forward</h3><p>Every node carries packets in IndexedDB and hands them to each new neighbour it meets (epidemic routing). Acks immunise the network so delivered messages stop spreading.</p></article>
+      <article><h3>End-to-end encryption</h3><p>ECDH P-256 key agreement and AES-256-GCM through the Web Crypto API. Relays forward ciphertext they cannot read; headers are bound as authenticated data.</p></article>
+      <article><h3>SOS broadcast</h3><p>One tap shares GPS position and a note with every reachable node. Alerts appear as pins on a live Leaflet map, with an extended hop limit.</p></article>
+      <article><h3>Live topology</h3><p>Nodes exchange link-state adverts every few seconds, so each device builds its own map of the network and animates packets as they move.</p></article>
+      <article><h3>Command dashboard</h3><p>A base station view of every node: links, round-trip times, hop counts, relays, duplicates and SOS alerts in real time.</p></article>
+    </div>
+  </section>
+
+  <section id="how" class="section">
+    <h2>Architecture</h2>
+    <div class="layers">
+      <div class="layer"><b>Application</b><span>Broadcast chat · Encrypted DMs · SOS + map · Delivery acks</span></div>
+      <div class="layer"><b>Security</b><span>ECDH P-256 · AES-256-GCM · AAD header binding · key fingerprints · non-extractable keys</span></div>
+      <div class="layer"><b>Routing</b><span>Gossip flooding · TTL · dedupe · link-state adverts · store-and-forward · ack immunity</span></div>
+      <div class="layer"><b>Transport</b><span>WebRTC DataChannels (peer-to-peer) · automatic server relay fallback</span></div>
+      <div class="layer muted"><b>Bootstrap</b><span>Signaling server, used only to introduce peers. Runs on a laptop on a local hotspot, no internet needed.</span></div>
+    </div>
+    <h3>Packet format</h3>
+<pre><code>{
+  "id": "9f2c1a...",          // unique id, used for duplicate suppression
+  "type": "dm",               // lsa | chat | dm | sos | ack
+  "src": "a1b2...", "dst": "c3d4...",   // "*" for broadcast
+  "ttl": 7,                   // decremented on every hop
+  "hops": ["a1b2", "e5f6"],   // route trace
+  "payload": { "iv": "...", "ct": "...", "pub": {...} }  // ciphertext only
+}</code></pre>
+  </section>
+
+  <section id="demo" class="section">
+    <h2>Demo with one laptop and one phone</h2>
+    <ol class="steps">
+      <li>Start the server on the laptop (<code>npm start</code>) and open <code>/app.html</code> in three browser tabs. Each tab is a separate node with its own keys.</li>
+      <li>Scan the QR code printed in the terminal with your phone (same Wi-Fi or the phone's hotspot) to add it as a node.</li>
+      <li>Open the <a href="/dashboard.html">dashboard</a> on the laptop to watch the topology form.</li>
+      <li><b>Multi-hop:</b> on node A, open Network and click <i>Cut link</i> to node C. Send C an encrypted DM. It is routed A → B → C, and the ack shows the hop count and round-trip time.</li>
+      <li><b>Store and forward:</b> turn on <i>Airplane</i> on C, send it a DM from A, then turn Airplane off. The carried message is delivered when C reappears.</li>
+      <li><b>SOS:</b> on the phone, open SOS Map and tap <i>Send SOS</i>. Watch the pin appear on every node and on the dashboard.</li>
+    </ol>
+  </section>
+
+  <footer class="footer">Relay-Mesh · Bluetooth (Nearby) · WebRTC · Web Crypto · IndexedDB · Socket.IO · Leaflet · vis-network · <a href="https://github.com/melvinakshay18-love/relay-mesh">GitHub</a></footer>
+</body>
+</html>

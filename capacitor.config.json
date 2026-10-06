@@ -1,0 +1,9 @@
+{
+  "appId": "com.meshnet.app",
+  "appName": "Relay-Mesh",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  }
+}
