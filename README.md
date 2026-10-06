@@ -10,9 +10,13 @@ Relay-Mesh is a peer-to-peer mesh messenger. Phones talk to each other directly 
 
 ## Demo
 
-| Website (dashboard + browser nodes) | Android phones (Bluetooth mesh) |
-|---|---|
-| ![Website demo](docs/demo/site-demo.gif) | ![Phone demo](https://github.com/user-attachments/assets/2f66011c-6aa9-4630-aac7-82aaab039bdb) |
+### Android phones: Bluetooth mesh with no internet
+
+https://github.com/user-attachments/assets/2f66011c-6aa9-4630-aac7-82aaab039bdb
+
+### Website: command dashboard and browser nodes
+
+https://github.com/user-attachments/assets/9318ba8a-f6df-42e4-94fd-c91e073f3e6d
 
 ---
 
